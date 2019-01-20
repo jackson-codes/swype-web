@@ -10,15 +10,16 @@ import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import App from './components/App';
-import { signOut } from './components/SignOut';
+import config from './config.json';
+import { signOut } from './components/auth/SignOut';
 import registerServiceWorker from './registerServiceWorker';
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:8000/graphql',
+  uri: config.GRAPHQL_HTTP_URL,
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:8000/graphql`,
+  uri: config.GRAPHQL_WS_URL,
   options: {
     reconnect: true,
   },

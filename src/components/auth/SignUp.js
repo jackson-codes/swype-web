@@ -4,7 +4,7 @@ import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import * as routes from '../../constants/routes';
-import ErrorMessage from '../Error';
+import ErrorMessage from '../common/Error';
 
 const SIGN_UP = gql`
   mutation($username: String!, $email: String!, $password: String!) {
@@ -44,7 +44,7 @@ class SignUpForm extends Component {
 
       await this.props.refetch();
 
-      this.props.history.push(routes.LANDING);
+      this.props.history.push(routes.SWIPE);
     });
 
     event.preventDefault();

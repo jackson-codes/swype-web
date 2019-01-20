@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import GoogleLogin from 'react-google-login';
+import FacebookLogin from 'react-facebook-login';
 
-import { SignUpLink } from '../SignUp';
+import { SignUpLink } from './SignUp';
 import * as routes from '../../constants/routes';
-import ErrorMessage from '../Error';
+import ErrorMessage from '../common/Error';
+import config from '../../config.json';
 
 const SIGN_IN = gql`
   mutation($login: String!, $password: String!) {
@@ -18,6 +21,30 @@ const SIGN_IN = gql`
 const SignInPage = ({ history, refetch }) => (
   <div>
     <h1>SignIn</h1>
+
+    <GoogleLogin
+      clientId={config.GOOGLE_SIGN_IN_CLIENT_ID}
+      buttonText="Login"
+      onSuccess={(response) => {
+        console.log('success');
+        console.log(response);
+      }}
+      onFailure={(response) => {
+        console.log('failure');
+        console.log(response);
+      }}
+    />
+
+    <FacebookLogin
+      appId={config.FACEBOOK_SIGN_IN_APP_ID}
+      autoLoad={true}
+      fields="name,email,picture"
+      callback={(response) => {
+        console.log(response);
+      }}
+    />
+
+
     <SignInForm history={history} refetch={refetch} />
     <SignUpLink />
   </div>
@@ -44,7 +71,7 @@ class SignInForm extends Component {
 
       await this.props.refetch();
 
-      this.props.history.push(routes.LANDING);
+      this.props.history.push(routes.SWIPE);
     });
 
     event.preventDefault();
